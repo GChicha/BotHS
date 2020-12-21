@@ -10,30 +10,45 @@ token = ''
 #Para primeiramente criar o comando, devemos definir uma função que
 #ira compor o comando e retornar um texto
 
-def localizacao(update: Update, context: CallbackContext):
+def localizacao(bot, update):
     #Escrevemos o texto que o bot irá mandar
     resposta = "R. Vitória, 943 - Vila Esperanca, Maringá - PR"
-    update.message.reply_text(resposta)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=resposta
+    )
 
-def regras(update: Update, context: CallbackContext):
+def regras(bot, update):
     resposta = "Colocar texto aqui"
-    update.message.reply_text(resposta)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=resposta
+    )
 
-def help(update: Update, context: CallbackContext):
+def help(bot, update):
     resposta = "Colocar texto aqui"
-    update.message.reply_text(resposta)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=resposta
+    )
 
 # POSSIVEIS ERROS:
 #Secção criada para que, caso o usuário escreva um comando comando errado
 #Ou tente conversar com o Bot
 
-def comando_Errado(update: Update, context: CallbackContext):
+def comando_Errado(bot, update):
     resposta = "Esse comando não existe. Favor checar a digitação!"
-    update.message.reply_text(resposta)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=resposta
+    )
 
-def conversa_paralela(update: Update, context: CallbackContext):
+def conversa_paralela(bot, update):
     resposta = "Sou um Robô!!!, não tenho assunto. Favor utilizar os comandos!"
-    update.message.reply_text(resposta)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=resposta
+    )
 
 #COMANDOS DINAMICOS:
 
@@ -47,7 +62,10 @@ def newsletter(bot, update):
     #Caso não tenha arquivo, ou o nome está errado:
     except FileNotFoundError:
         print("Esse arquivo não existe, favor checar a pasta!")
-        update.message.reply_text("Estamos sem arquivos, favor contactar a Diretoria do HS")
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=resposta
+        )
 
 
 def main():
