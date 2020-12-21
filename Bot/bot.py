@@ -1,5 +1,6 @@
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater, CallbackContext
-from telegram import Update, Bot
+from telegram import Update, Bot, Document
+import requests as re
 
 # COMANDOS ESTATICOS:
 #Para primeiramente criar o comando, devemos definir uma função que
@@ -17,7 +18,7 @@ def regras(update: Update, context: CallbackContext):
 def help(update: Update, context: CallbackContext):
     resposta = "Colocar texto aqui"
     update.message.reply_text(resposta)
-    
+
 # POSSIVEIS ERROS:
 #Secção criada para que, caso o usuário escreva um comando comando errado
 #Ou tente conversar com o Bot
@@ -30,16 +31,22 @@ def conversa_paralela(update: Update, context: CallbackContext):
     resposta = "Sou um Robô!!!, não tenho assunto. Favor utilizar os comandos!"
     update.message.reply_text(resposta)
 
-#Código Principal    
+#COMANDOS DINAMICOS:
+
+#Newsletter, puxa o arquivo do folder 'news' e envia pela API
+def newsletter(bot, update):
+    documento = {'document': open('news/test.pdf', 'rb')}
+    resp = re.post('https://api.telegram.org/bot<<colocar_token>>/sendDocument?chat_id={}'.format(update.message.chat_id), files = documento)
+
+
 def main():
     #Esse updater puxa nosso bot da API do telegram, esse token
     #é entregue quando criamos o bot.
-   
-    updater = Updater(token = '')
-    #Token do bot não estara aqui, pegar no privado.
+    updater = Updater(token = '', use_context = False)
 
     dispatcher = updater.dispatcher
     #Cria o comando para o Bot
+    #COMANDOS ESTATICOS
     dispatcher.add_handler(
         CommandHandler('address', localizacao)
     )
@@ -48,6 +55,10 @@ def main():
     )
     dispatcher.add_handler(
         CommandHandler('help', help)
+    )
+    #COMANDOS DINAMICOS
+    dispatcher.add_handler(
+        CommandHandler('news', newsletter)
     )
     #Faz o bot receber a mensagem e processar uma resposta
     dispatcher.add_handler(
@@ -58,6 +69,7 @@ def main():
         #filters filtrará o que foi especificado
         MessageHandler(Filters.all, conversa_paralela)
     )
+
     updater.start_polling()
 
     updater.idle()
