@@ -21,7 +21,9 @@ def help(update: Update, context: CallbackContext):
 def main():
     #Esse updater puxa nosso bot da API do telegram, esse token
     #é entregue quando criamos o bot.
-    updater = Updater(token = '1461211618:AAFOImbh1IM0Yt9kzHbXLVZrwSJzPquTk0Q')
+   
+    updater = Updater(token = '')
+    #Token do bot não estara aqui, pegar no privado.
 
     dispatcher = updater.dispatcher
     #Cria o comando para o Bot
