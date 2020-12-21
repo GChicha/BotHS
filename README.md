@@ -2,8 +2,8 @@
 Bot básico do HackerSapce Maringá
 
 # Requirements
-$ pip3 install python-telegram-bot
-$ pip3 install requests
+- $ pip3 install python-telegram-bot
+- $ pip3 install requests
 
 # Referencias 
 bot de pagamentos : https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/paymentbot.py
