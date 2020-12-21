@@ -1,7 +1,11 @@
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater, CallbackContext
 from telegram import Update, Bot, Document
 import requests as re
+import os
+import glob
 
+#Colocar aqui o token do seu BOT
+token = '1461211618:AAFpKAlKWcHJZLWZn4gbN2tSNa8x6r1RM7w'
 # COMANDOS ESTATICOS:
 #Para primeiramente criar o comando, devemos definir uma função que
 #ira compor o comando e retornar um texto
@@ -35,14 +39,21 @@ def conversa_paralela(update: Update, context: CallbackContext):
 
 #Newsletter, puxa o arquivo do folder 'news' e envia pela API
 def newsletter(bot, update):
-    documento = {'document': open('news/test.pdf', 'rb')}
-    resp = re.post('https://api.telegram.org/bot<<colocar_token>>/sendDocument?chat_id={}'.format(update.message.chat_id), files = documento)
+    try:
+        #Procura o arquivo mais novo presente
+        mais_novo_arquivo = max(glob.iglob('news/*.pdf'), key=os.path.getctime)
+        documento = {'document': open(mais_novo_arquivo, 'rb')}
+        resp = re.post('https://api.telegram.org/bot{}/sendDocument?chat_id={}'.format(token,update.message.chat_id), files = documento)
+    #Caso não tenha arquivo, ou o nome está errado:
+    except FileNotFoundError:
+        print("Esse arquivo não existe, favor checar a pasta!")
+        update.message.reply_text("Estamos sem arquivos, favor contactar a Diretoria do HS")
 
 
 def main():
     #Esse updater puxa nosso bot da API do telegram, esse token
     #é entregue quando criamos o bot.
-    updater = Updater(token = '', use_context = False)
+    updater = Updater(token = token, use_context = False)
 
     dispatcher = updater.dispatcher
     #Cria o comando para o Bot
