@@ -5,7 +5,7 @@ import os
 import glob
 
 #Colocar aqui o token do seu BOT
-token = '1461211618:AAFpKAlKWcHJZLWZn4gbN2tSNa8x6r1RM7w'
+token = ''
 # COMANDOS ESTATICOS:
 #Para primeiramente criar o comando, devemos definir uma função que
 #ira compor o comando e retornar um texto
